@@ -58,23 +58,20 @@ getFrequencyScore = (page, query) => {
 
 search = query => {
   getWords();
-  console.log(query);
   let result = [];
   let scores = { content: [], location: [] };
 
   for (page in pages) {
-    // for (i = 0; i < pages.length; i++) {
     scores.content[page] = getFrequencyScore(pages[page], query);
-    scores.location[page] = getLocationScore(pages[page], query);
+    // scores.location[page] = getLocationScore(pages[page], query);
   }
 
   normalize(scores.content, false);
-  normalize(scores.location, true);
+  // normalize(scores.location, true);
 
   for (page in pages) {
-    console.log(page);
     // let score = scores.content[page] + 0.8 * scores.location[page];
-    let score = 1.0 * scores.content[page];
+    let score = scores.content[page];
     result.push({ page: pages[page], score });
   }
 
@@ -84,7 +81,7 @@ search = query => {
 };
 
 roundDecimals = (number, dec) => {
-  return parseFloat(number).toFixed(dec);
+  return !number ? 0 : parseFloat(number).toFixed(dec);
 };
 
 normalize = (scores, smallIsBetter) => {
@@ -104,7 +101,6 @@ normalize = (scores, smallIsBetter) => {
       scores[score] = roundDecimals(scores[score] / max, 2);
     }
   }
-  console.log(scores);
 };
 
 getWords = async () => {
@@ -115,15 +111,10 @@ getWords = async () => {
       file,
       dir: 'Games',
     })),
-    //path.join("/Games/" + file)),
-    // .map(file => path.join(dbDir + "Words/Games/" + file)),
-    ...fs.readdirSync(dbDir + 'Words/Programming').map(
-      file => ({
-        file,
-        dir: 'Programming',
-      }) /*path.join("/Programming/" + file)*/
-    ),
-    // .map(file => path.join(dbDir + "Words/Programming/" + file))
+    ...fs.readdirSync(dbDir + 'Words/Programming').map(file => ({
+      file,
+      dir: 'Programming',
+    })),
   ];
   let counter = 1;
   dirs.forEach(async ({ dir, file }) => {
@@ -140,11 +131,6 @@ getWords = async () => {
     }
     pages.push(page);
   });
-  // console.log(hashMap);
-  // console.log(pages);
-  // console.log(hashMap);
-  // await fs.writeFileSync("test.json", JSON.stringify(pages, null, 2));
 };
-//
 
-module.exports = { getWords, search };
+module.exports = { search };

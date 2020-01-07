@@ -6,9 +6,7 @@ const search = require('./models/search');
 const routes = require('./routes/routes.js');
 
 app.get('/search', async (req, res) => {
-  console.log(req.query.q);
   const data = await search.search(req.query.q);
-  console.log(data);
   res.json(data);
   res.end(JSON.stringify(data, null, 2));
 });

@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.get('/', async (req, res) => {
-  console.log(req.query);
   let data = {
     title: 'KMeans',
   };
@@ -23,11 +22,11 @@ router.get('/search', async (req, res) => {
     title: `Search for: '${req.query.q}'`,
   };
 
-  const results = await fetch(
-    'http://localhost:1337/search?q=' + req.query.q
-  ).then(response => response.json());
-
-  console.log(req.query.q);
+  const results = req.query.q
+    ? await fetch('http://localhost:1337/search?q=' + req.query.q).then(
+        response => response.json()
+      )
+    : [];
 
   res.render('search', {
     data: { ...data, results, q: req.query.q },
