@@ -1,0 +1,24 @@
+{
+  "env": {
+    "node": true,
+    "mocha": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["mocha"],
+  "extends": ["eslint:recommended"],
+  "rules": {
+    "no-var": "error",
+    "no-console": 0,
+    "curly": ["error", "all"],
+    "no-return-await": 1,
+    "mocha/no-exclusive-tests": "error"
+  },
+  "globals": {
+    "config": false,
+    "fetch": false
+  }
+}

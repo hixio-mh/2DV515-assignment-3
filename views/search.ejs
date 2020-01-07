@@ -1,0 +1,21 @@
+<% include partials/header %>
+<main class="container text-center">
+  <h2><%=data.title%></h2>
+  <form action="/search" method="get">
+    <input type="search" name="q" value="<%=data.q%>" >
+  </form>
+  <table>
+      <head><th>url</th><th>score</th></head>
+      <% if (data.results) { %>
+      <%console.log(data.results)%>
+          <%for (result of data.results) { %>
+              
+            <tr><td><a href="https://en.wikipedia.org<%=result.page.url%>"><%=result.page.name%></a></td><td><%=result.score%></td></tr>
+              
+              
+          <% } -%>
+          <% } else { -%>
+      <% } %>
+  </table>
+</main>
+<% include partials/footer %>
